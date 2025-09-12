@@ -1,5 +1,4 @@
 // @ts-check
-import "./src/env-config.mjs";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
