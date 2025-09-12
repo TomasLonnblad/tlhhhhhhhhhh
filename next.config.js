@@ -1,20 +1,31 @@
-/**
- * @type {import('next').NextConfig}
- */
+// @ts-check
+import "./src/env-config.mjs";
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  distDir: 'dist',
+  reactStrictMode: true,
+  output: "standalone",
+  cacheHandler:
+    process.env.NODE_ENV === "production"
+      ? "./custom-incremental-cache-handler.mjs"
+      : undefined,
+  cacheMaxMemorySize: 0,
+  experimental: {
+    taint: true
+  },
+  logging: {
+    fetches: {
+      fullUrl: true
+    }
+  },
   images: {
-  unoptimized: true,
-},
-  // Optional: Change links `/me` -> `/me/` and emit `/me.html` -> `/me/index.html`
-  // trailingSlash: true,
- 
-  // Optional: Prevent automatic `/me` -> `/me/`, instead preserve `href`
-  // skipTrailingSlashRedirect: true,
- 
-  // Optional: Change the output directory `out` -> `dist`
-  // distDir: 'dist',
-}
- 
-module.exports = nextConfig
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com"
+      }
+    ]
+  }
+};
+
+export default nextConfig;
